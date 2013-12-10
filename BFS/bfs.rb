@@ -1,53 +1,43 @@
 require '../lib/Queue'
 
-	#this test PASSED!!!!
-# 	frontier = Queue.new
-# 	neighbors = {}
-# 	neighbors = {:a => [:b,:c,:d], :b => [:a,:d], :c => [:a, :d], :d =>[:e], :e =>[:d] }
-# 	parent = {}
-# 	visited = []
-# # :a is the source node for BFS search. Put :a into the frontier queue
-# 	parent[:a] = nil
-# 	frontier.enqueue(:a)
-
-
 	frontier = Queue.new
 	neighbors = {}
 	neighbors = {:a => [:b,:f], :b => [:c,:d], :c => [:e], :d =>[:e], :e =>[:c,:d], 
 					:f => [:a,:g,:h,:i], :g => [:f], :h => [:f], :i => [:f] }
 	parent = {}
-	visited = []
+	visited = []. #refactor visited as a hash, e.g. visited[:a] = true if we've visited :a
+
+	
 # :a is the source node for BFS search. Put :a into the frontier queue
 	parent[:a] = nil
 	frontier.enqueue(:a)
 
 
-#	puts "frontier = #{frontier.queue}"
-
 	while !frontier.empty? do
-		frontier.queue.each do |node| # need to write a .each method for Queue class
-			# puts "frontier = #{frontier.queue}"
-			# puts "node = #{node}"
+		frontier.each do |node| 
 			neighbors[node].each do |neighbor|
-
-				# puts "neighbor = #{neighbor}"
-				if visited.include?(neighbor) || frontier.include?(neighbor)
+				if frontier.include?(neighbor) || visited.include?(neighbor) 
 					next
 				else
-					# puts "adding #{neighbor} to queue"
 					frontier.enqueue(neighbor)
 					parent[neighbor] = node
 				end
 			end
 		end
-		visited << frontier.dequeue 
-#		sleep(3.25)
-		# puts "after sleep, parent = #{parent}"
-		# puts "after sleep, frontier = #{frontier.queue}"
-		# puts" after sleep, visited = #{visited.inspect}"
+		visited << frontier.dequeue # make visited into a hash. see above
+
 	end
 
 puts "parent = #{parent}"
 puts "frontier = #{frontier.queue}"
 puts "visited = #{visited}"
 
+#begin to work out what I want in the class BFS
+class BFS
+	#need adjacency list to be an input?
+	#want it to work on different representations, e.g. both graphs or mazes should work
+	#or, need to be able to parse the data input to implement 
+	#the adjacency list
+	#v.neighbors, because you need to figure out where to go next
+		
+end
